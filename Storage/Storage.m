@@ -2,7 +2,7 @@
 
 (* Created by the Wolfram Workbench 20-May-2015 *)
 
-BeginPackage["Storage`", {"PlottingUtilities`"}]
+BeginPackage["Storage`", {"PlottingUtilities`", "TestData`"}]
 (* Exported symbols added here with SymbolName::usage *) 
 
 fromHDFDatasetToList::usage = "fromHDFDatasetToList[datasets] builds a Mathematica square list out of
@@ -49,6 +49,8 @@ plotMeshHistogram::usage = ""
 
 basisFunctions::usage = ""
 makeMatrix::usage = ""
+
+
 
 Begin["`Private`"]
 (* Implementation of the package *)
@@ -250,7 +252,7 @@ discretiseIntervals[intervals_, nominalDelta_, sametest_] :=
 
 
 makeInventoryMesh["NominalDelta"][nT_, minRate_, maxRate_, startRange_, endRange_, invRange_, nominalDelta_, tolerance_] :=
-    discretiseIntervals[#, nominalDelta, tolerance] & /@ feasibleRange[nT, minRate, maxRate, startRange, endRange, invRange]
+    discretiseIntervals[#, nominalDelta, Abs[#1 - #2] < tolerance &] & /@ feasibleRange[nT, minRate, maxRate, startRange, endRange, invRange]
 
 
 same =
@@ -286,7 +288,7 @@ makeInventoryMesh["Decisions"][nT_, minRate_, maxRate_, startRange_, endRange_, 
                                                Max[feaRange[[#[[1]] + 1]]],
                                                nDecisions,
                                                tolerance]} &,
-        {1, discretiseIntervals[startRange, (Max[startRange] - Min[startRange]) / tolerance, tolerance]},
+        {1, discretiseIntervals[startRange, (Max[startRange] - Min[startRange]) / tolerance, Abs[#1 - #2] < tolerance &]},
         nT][[All, 2]]
     ]
 
@@ -442,6 +444,8 @@ makeMatrix =
       CompilationOptions -> {"InlineExternalDefinitions" -> True}
     ]
 *)
+
+
 
 End[]
 
