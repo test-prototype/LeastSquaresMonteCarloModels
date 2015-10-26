@@ -3,6 +3,7 @@
 BeginPackage["TestData`"]
 
 testDeals::usage=""
+testSpot::usage=""
 
 Begin["`Private`"]
 
@@ -30,8 +31,15 @@ storage inventory fixed for 2 days",
     "definition" -> {365, (-5 &) & /@ Range[365], (5 &) & /@ 
        Range[365], Interval[{0, 0}], Interval[{0, 0}], 
       Join[
-       Interval[{0, 350}] & /@ Range[364], {Interval[{0, 0}]}]}|>]]
+       Interval[{0, 350}] & /@ Range[364], {Interval[{0, 0}]}]}|>]];
 
+SeedRandom[123987]
+nsims=100;
+ir = 0.023;
+vol = 0.35;
+s0 = 50.0
+testSpot = NestList[# Exp[-ir 1.0/365] Exp[vol Sqrt[1.0/365] RandomVariate[NormalDistribution[0, 1], nsims]] &,
+	                ConstantArray[s0, {nsims}], 364];
 
 End[]
 
