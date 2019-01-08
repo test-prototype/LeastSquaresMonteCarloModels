@@ -44,3 +44,6 @@ The mesh is the collection of the set of points at each time slice.
 final inventory refers to the end of the last exercise date (when no more decisions can be taken).
 
 ### Junk
+
+  * Check definition of cashflows: is it consistent with LSMC ?
+  
